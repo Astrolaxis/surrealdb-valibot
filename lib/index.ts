@@ -24,20 +24,28 @@ import {
 	Uuid,
 } from "surrealdb";
 import {
+	type ArrayIssue,
 	type ArraySchema,
 	type BaseIssue,
 	type BaseSchema,
+	type BigintIssue,
 	type BigintSchema,
+	type CustomIssue,
 	type CustomSchema,
 	check,
 	custom,
+	type ErrorMessage,
+	type GenericSchema,
 	type InferOutput,
+	type NumberIssue,
 	type NumberSchema,
 	type ObjectEntries,
+	type ObjectIssue,
 	type ObjectSchema,
 	object,
 	parse,
 	pipe,
+	type StringIssue,
 	type StringSchema,
 	safeParse,
 	string,
@@ -92,12 +100,13 @@ function getBoundSchema<T extends BaseSchema<unknown, unknown, BaseIssue<unknown
  * @private
  */
 type RecordIdValueSchema =
-	| StringSchema<string>
-	| NumberSchema<string>
-	| CustomSchema<Uuid, string>
-	| BigintSchema<string>
-	| ObjectSchema<ObjectEntries, string>
-	| ArraySchema<BaseSchema<unknown, unknown, BaseIssue<unknown>>, string>;
+	| StringSchema<ErrorMessage<StringIssue> | undefined>
+	| NumberSchema<ErrorMessage<NumberIssue> | undefined>
+	| CustomSchema<Uuid, ErrorMessage<CustomIssue> | undefined>
+	| BigintSchema<ErrorMessage<BigintIssue> | undefined>
+	| ObjectSchema<ObjectEntries, ErrorMessage<ObjectIssue> | undefined>
+	| ArraySchema<BaseSchema<unknown, unknown, BaseIssue<unknown>>, ErrorMessage<ArrayIssue> | undefined>
+	| GenericSchema<RecordIdValue>;
 
 // SECTION - DateTime
 
